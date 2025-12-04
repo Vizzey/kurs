@@ -1,4 +1,6 @@
 .vs
 docker
 obj
-__*
+__pycache__/
+*.pyc
+!**/__init__.py
