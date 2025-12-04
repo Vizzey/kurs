@@ -12,7 +12,7 @@
                 <h3>{{ card.title }}</h3>
                 <p class="muted">{{ card.description }}</p>
                 {% if card.mode == 'link' %}
-                    <div class="actions" style="margin-top: 10px;">
+                    <div class="actions" style="margin: 20px 0px;">
                         <a class="primary" href="{{ card.url }}">Запустить</a>
                     </div>
                 {% elif card.mode == 'form' %}

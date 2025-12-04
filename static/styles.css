@@ -164,7 +164,7 @@ ul li + li {
 
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: 1fr;
     gap: 14px;
     margin-top: 16px;
 }
@@ -223,6 +223,7 @@ ul li + li {
 }
 
 .mini-form .actions {
+    margin-top: 20px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
