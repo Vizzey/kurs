@@ -4,8 +4,16 @@ from . import auth_bp
 
 USERS: dict[str, dict[str, object]] = {
     'dispatcher': {'password': 'disp123', 'role': 'диспетчер', 'permissions': ['queries']},
-    'manager': {'password': 'boss123', 'role': 'начальник', 'permissions': ['queries', 'reports']},
-    'admin': {'password': 'admin123', 'role': 'администратор', 'permissions': ['queries', 'reports', 'admin']},
+    'manager': {
+        'password': 'boss123',
+        'role': 'начальник',
+        'permissions': ['queries', 'reports_view'],
+    },
+    'admin': {
+        'password': 'admin123',
+        'role': 'администратор',
+        'permissions': ['queries', 'reports_view', 'reports_create', 'admin'],
+    },
 }
 
 

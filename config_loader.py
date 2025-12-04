@@ -1,12 +1,10 @@
 import configparser
+from flask import Flask
 
 
-
-
-def load_config(app, conf_path: str):
+def load_config(app: Flask, conf_path: str):
     parser = configparser.ConfigParser()
     parser.read(conf_path, encoding='utf-8')
-
 
     mysql = parser['mysql']
     app.config.update(
