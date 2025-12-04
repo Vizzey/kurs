@@ -1,5 +1,18 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-<h2>Работа завершена</h2>
-<p>Спасибо за использование ИС «Супермаркет».</p>
+<section class="hero">
+    <div class="section-split">
+        <div>
+            <p class="eyebrow">Сеанс завершен</p>
+            <h2>Спасибо за работу</h2>
+            <p class="subtitle">Вы успешно вышли из системы. До скорой встречи!</p>
+        </div>
+        <div class="section-note">
+            <strong>Напоминание.</strong> Для повторного входа вернитесь на форму авторизации. Ваши действия сохранены.
+        </div>
+    </div>
+</section>
+<div class="glass-card">
+    <p>Если вы захотите продолжить работу, выполните вход повторно.</p>
+</div>
 {% endblock %}

@@ -1,19 +1,46 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ИС «Супермаркет»</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
-    <meta charset="utf-8" />
 </head>
-<body>
-    <header>
-        <h1>ИС «Супермаркет»</h1>
-        <nav>
-            <a href="{{ url_for('menu') }}">Главное меню</a>
-            <a href="{{ url_for('query.index') }}">Параметризованный запрос</a>
-        </nav>
+<body class="app-body">
+    <div class="page-shell">
+        <header class="topbar">
+            <div class="brand">
+                <span class="logo-circle">СМ</span>
+                <div class="brand-text">
+                    <span class="brand-name">ИС «Супермаркет»</span>
+                    <small class="brand-tag">управление перевозками</small>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('menu') }}">Главное меню</a>
+                {% if 'queries' in session.get('user', {}).get('permissions', []) %}
+                    <a href="{{ url_for('query.index') }}">Параметризованный запрос</a>
+                {% endif %}
+                {% if 'reports' in session.get('user', {}).get('permissions', []) %}
+                    <a href="{{ url_for('reports') }}">Отчеты</a>
+                {% endif %}
+                {% if 'admin' in session.get('user', {}).get('permissions', []) %}
+                    <a href="{{ url_for('admin') }}">Администрирование</a>
+                {% endif %}
+            </nav>
+            <div class="user-panel">
+                {% if session.get('user') %}
+                    <div class="user-chip">
+                        <span class="user-name">{{ session['user']['login'] }}</span>
+                        <span class="user-role">{{ session['user']['role'] }}</span>
+                    </div>
+                    <a class="ghost-button" href="{{ url_for('auth.logout') }}">Выход</a>
+                {% else %}
+                    <a class="primary-button" href="{{ url_for('auth.login') }}">Войти</a>
+                {% endif %}
+            </div>
+        </header>
+
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <ul class="flash">
@@ -23,12 +50,14 @@
         </ul>
         {% endif %}
         {% endwith %}
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    <footer>
-        <small>Китляров</small>
-    </footer>
+
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <small>Китляров</small>
+        </footer>
+    </div>
 </body>
 </html>

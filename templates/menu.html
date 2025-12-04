@@ -1,24 +1,30 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-<h2>Главное меню</h2>
-<p>Выберите действие:</p>
-<ul>
-    <li><a href="{{ url_for('query.index') }}">Поиск комплектующих</a></li>
-    <li><a href="{{ url_for('query.list_all_products') }}">Все комплектующие</a></li>
-
-    <li><a href="{{ url_for('query.simple_1') }}">[Просто-1] Приняты в марте 2020</a></li>
-    <li><a href="{{ url_for('query.simple_2') }}">[Просто-2] Приняты за 10 дней</a></li>
-    <li><a href="{{ url_for('query.simple_3', series='HT') }}">[Просто-3] Номера с серией HT</a></li>
-    <li><a href="{{ url_for('query.simple_4') }}">[Просто-4] Количество ТТН в марте 2020</a></li>
-    <li><a href="{{ url_for('query.simple_5') }}">[Просто-5] Вес по клиентам в 2020</a></li>
-    <li><a href="{{ url_for('query.simple_6') }}">[Просто-6] Самый молодой сотрудник</a></li>
-
-    <li><a href="{{ url_for('query.hard_1') }}">[Слож-1] Отчёт ТТН</a></li>
-    <li><a href="{{ url_for('query.hard_2', contract='C-1001') }}">[Слож-2] Кто оформлял ТТН клиенту C-1001 в марте 2020</a></li>
-    <li><a href="{{ url_for('query.hard_3') }}">[Слож-3] Клиент с максимальным весом в марте 2020</a></li>
-    <li><a href="{{ url_for('query.hard_4') }}">[Слож-4] Сотрудники, ни разу не оформлявшие ТТН</a></li>
-    <li><a href="{{ url_for('query.hard_5') }}">[Слож-5] Не оформляли ТТН в марте 2020</a></li>
-    <li><a href="{{ url_for('query.hard_6') }}">[Слож-6] Клиент чаще всех в 2020 (VIEW)</a></li>
-</ul>
-
+<section class="hero">
+    <div class="section-split">
+        <div>
+            <p class="eyebrow">Главное меню</p>
+            <h2>Что хотите сделать?</h2>
+            <p class="subtitle">Система показывает только разделы, доступные по вашим правам.</p>
+            <div class="hero-actions">
+                <span class="chip">✓ Авторизация пройдена</span>
+                <span class="chip">Разделы фильтруются по ролям</span>
+            </div>
+        </div>
+        <div class="section-note">
+            <strong>Подсказка.</strong> Пункты меню появляются автоматически на основе ваших прав доступа.
+        </div>
+    </div>
+</section>
+<div class="card-grid">
+    {% for item in menu_items %}
+        <a class="glass-card menu-card" href="{{ item.url }}">
+            <div class="menu-icon">→</div>
+            <div>
+                <h3>{{ item.title }}</h3>
+                <p class="subtitle">Перейти в раздел</p>
+            </div>
+        </a>
+    {% endfor %}
+</div>
 {% endblock %}
