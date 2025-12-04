@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ИС «Супермаркет»</title>
+    <title>ИС «Автомобильная компания»</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
     <meta charset="utf-8" />
 </head>
@@ -13,15 +13,13 @@
             <div class="brand">
                 <div class="brand-icon" aria-hidden="true">🛒</div>
                 <div>
-                    <p class="eyebrow">ИС «Супермаркет»</p>
+                    <p class="eyebrow">ИС «Автомобильная компания»</p>
                     <h1>Рабочая панель</h1>
                 </div>
             </div>
             <nav class="nav-links">
                 <a href="{{ url_for('menu') }}">Главное меню</a>
-                {% if 'queries' in session.get('user', {}).get('permissions', []) %}
-                    <a href="{{ url_for('query.index') }}">Параметризованный запрос</a>
-                {% endif %}
+           
                 {% if session.get('user') %}
                     <span class="user-info">{{ session['user']['login'] }} ({{ session['user']['role'] }})</span>
                     <a class="ghost" href="{{ url_for('auth.logout') }}">Выход</a>
