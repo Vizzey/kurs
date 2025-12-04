@@ -67,10 +67,34 @@ def create_app():
     app.register_blueprint(query_bp)
 
     MENU_ITEMS = [
-        {'title': 'Параметризованные запросы', 'endpoint': 'query.index', 'permission': 'queries'},
-        {'title': 'Отчёты', 'endpoint': 'reports', 'permission': 'reports'},
-        {'title': 'Администрирование', 'endpoint': 'admin', 'permission': 'admin'},
-        {'title': 'Выход', 'endpoint': 'auth.logout', 'permission': 'queries'},
+        {
+            'title': 'Параметризованные запросы',
+            'subtitle': 'Готовые выборки и поисковые формы',
+            'endpoint': 'query.index',
+            'icon': '🚗',
+            'permission': 'queries'
+        },
+        {
+            'title': 'Отчёты',
+            'subtitle': 'Сводные показатели компании',
+            'endpoint': 'reports',
+            'icon': '📊',
+            'permission': 'reports'
+        },
+        {
+            'title': 'Администрирование',
+            'subtitle': 'Пользователи и роли',
+            'endpoint': 'admin',
+            'icon': '🛠️',
+            'permission': 'admin'
+        },
+        {
+            'title': 'Выход',
+            'subtitle': 'Завершить смену',
+            'endpoint': 'auth.logout',
+            'icon': '🏁',
+            'permission': 'queries'
+        },
     ]
 
     @app.route('/')
@@ -81,6 +105,8 @@ def create_app():
         items = [
             {
                 'title': item['title'],
+                'subtitle': item.get('subtitle'),
+                'icon': item.get('icon'),
                 'url': url_for(item['endpoint'])
             }
             for item in MENU_ITEMS

@@ -2,11 +2,19 @@
 {% block content %}
 <div class="panel">
     <h2>Главное меню</h2>
-    <p class="muted">Выберите действие:</p>
-    <ul>
+    <p class="muted">Выберите раздел, чтобы перейти к нужной задаче.</p>
+    <div class="menu-grid">
         {% for item in menu_items %}
-            <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+        <a class="menu-card" href="{{ item.url }}">
+            <div class="menu-card__icon" aria-hidden="true">{{ item.icon or '➡️' }}</div>
+            <div class="menu-card__body">
+                <h3>{{ item.title }}</h3>
+                {% if item.subtitle %}
+                <p class="muted">{{ item.subtitle }}</p>
+                {% endif %}
+            </div>
+        </a>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
