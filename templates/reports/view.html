@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="panel">
+    <p class="eyebrow">Отчеты</p>
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div>
+            <h2>{{ report.title }}</h2>
+            <p class="muted">{{ report.description or 'Описание не указано.' }}</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a class="ghost" href="{{ url_for('reports.list_reports') }}">← К списку отчетов</a>
+        </div>
+    </div>
+
+    {% if params %}
+    <form method="post" class="auth-form" style="margin-top:18px;">
+        {% for field in params %}
+        <label>
+            {{ field.label or field.name }}
+            <input
+                name="{{ field.name }}"
+                type="{{ field.type or 'text' }}"
+                placeholder="{{ field.placeholder or '' }}"
+                value="{{ values.get(field.name, '') }}"
+                {% if field.get('required') %}required{% endif %}
+            />
+        </label>
+        {% endfor %}
+        <div style="display:flex;gap:10px;">
+            <button type="submit" class="primary">Сформировать отчет</button>
+            <a class="ghost" href="{{ url_for('reports.list_reports') }}">Отмена</a>
+        </div>
+    </form>
+    {% endif %}
+
+    {% if rows is not none %}
+    {% if rows %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    {% for key in rows[0].keys() %}
+                    <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    {% for value in row.values() %}
+                    <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="muted">Данных для отображения нет.</p>
+    {% endif %}
+    {% elif not params %}
+    <p class="muted">Нажмите «Сформировать отчет», чтобы увидеть данные.</p>
+    {% endif %}
+</div>
+{% endblock %}

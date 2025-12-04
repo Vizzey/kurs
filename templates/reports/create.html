@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="panel">
+    <p class="eyebrow">Отчеты</p>
+    <h2>Создать новый отчет</h2>
+    <p class="muted">Заполните форму, чтобы добавить отчет. Его можно будет использовать без перезапуска приложения.</p>
+
+    <form method="post" class="auth-form">
+        <label>
+            Идентификатор отчета
+            <input type="text" name="id" required value="{{ values.get('id', '') }}" placeholder="sales_by_month" />
+        </label>
+        <label>
+            Заголовок
+            <input type="text" name="title" required value="{{ values.get('title', '') }}" placeholder="Продажи по месяцам" />
+        </label>
+        <label>
+            Описание
+            <input type="text" name="description" value="{{ values.get('description', '') }}" placeholder="Краткое назначение отчета" />
+        </label>
+        <label>
+            SQL-запрос
+            <textarea name="sql" rows="6" required placeholder="SELECT ...">{{ values.get('sql', '') }}</textarea>
+        </label>
+        <label>
+            Параметры (JSON-массив)
+            <textarea name="params_json" rows="6" placeholder='[{"name": "year", "label": "Год", "type": "number", "default": 2024}]'>{{ values.get('params_json', '') }}</textarea>
+            <span class="muted">Оставьте пустым, если отчет не требует параметров.</span>
+        </label>
+        <div style="display:flex;gap:10px;">
+            <button type="submit" class="primary">Сохранить</button>
+            <a class="ghost" href="{{ url_for('reports.entrypoint') }}">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

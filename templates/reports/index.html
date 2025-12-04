@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% set can_create = 'reports_create' in (session.get('user', {}).get('permissions', [])) %}
+{% block content %}
+<div class="panel">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;">
+        <div>
+            <p class="eyebrow">Отчеты</p>
+            <h2>Каталог доступных отчетов</h2>
+            <p class="muted">Выберите отчет, чтобы выполнить его или посмотреть результат.</p>
+        </div>
+        {% if can_create %}
+        <a class="primary" href="{{ url_for('reports.create_report') }}">➕ Добавить отчет</a>
+        {% endif %}
+    </div>
+
+    {% if reports %}
+    <div class="menu-grid" style="margin-top:18px;">
+        {% for report in reports %}
+        <a class="menu-card" href="{{ url_for('reports.view_report', report_id=report.id) if report.id else '#' }}">
+            <div class="menu-card__icon" aria-hidden="true">📈</div>
+            <div class="menu-card__body">
+                <h3>{{ report.title }}</h3>
+                <p class="muted">{{ report.description or 'Описание не указано.' }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="muted">Пока нет сохраненных отчетов.</p>
+    {% endif %}
+</div>
+{% endblock %}
