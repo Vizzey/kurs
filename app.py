@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, redirect, url_for, session
 from config_loader import load_config
 from blueprints.query import query_bp
+from blueprints.reports import reports_bp
 from blueprints.auth import auth_bp, login_required, permission_required, current_user
 
 
@@ -62,9 +63,11 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
 
     load_config(app, os.path.join('config', 'app.conf'))
+    app.config.setdefault('REPORTS_CONFIG_PATH', os.path.join(app.root_path, 'config', 'reports.json'))
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(query_bp)
+    app.register_blueprint(reports_bp)
 
     MENU_ITEMS = [
         {
@@ -72,28 +75,28 @@ def create_app():
             'subtitle': 'Готовые выборки и поисковые формы',
             'endpoint': 'query.index',
             'icon': '🚗',
-            'permission': 'queries'
+            'permissions': ['queries']
         },
         {
             'title': 'Отчёты',
             'subtitle': 'Сводные показатели компании',
-            'endpoint': 'reports',
+            'endpoint': 'reports.entrypoint',
             'icon': '📊',
-            'permission': 'reports'
+            'permissions': ['reports_view', 'reports_create']
         },
         {
             'title': 'Администрирование',
             'subtitle': 'Пользователи и роли',
             'endpoint': 'admin',
             'icon': '🛠️',
-            'permission': 'admin'
+            'permissions': ['admin']
         },
         {
             'title': 'Выход',
             'subtitle': 'Завершить смену',
             'endpoint': 'auth.logout',
             'icon': '🏁',
-            'permission': 'queries'
+            'permissions': []
         },
     ]
 
@@ -110,14 +113,9 @@ def create_app():
                 'url': url_for(item['endpoint'])
             }
             for item in MENU_ITEMS
-            if item['permission'] in permissions
+            if not item.get('permissions') or permissions.intersection(item['permissions'])
         ]
         return render_template('menu.html', menu_items=items)
-
-    @app.route('/reports')
-    @permission_required('reports')
-    def reports():
-        return render_template('reports.html')
 
     @app.route('/admin')
     @permission_required('admin')
