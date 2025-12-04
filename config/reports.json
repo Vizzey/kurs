@@ -1,16 +1,16 @@
 [
   {
-    "id": "ttn_by_month_2020",
-    "title": "ТТН по месяцам 2020",
-    "description": "Количество и суммарный вес накладных по месяцам 2020 года.",
-    "sql": "SELECT MONTH(issue_date) AS month_num, COUNT(*) AS ttn_count, SUM(total_weight) AS total_weight FROM ttn WHERE YEAR(issue_date) = 2020 GROUP BY MONTH(issue_date) ORDER BY MONTH(issue_date);",
+    "id": "invoice_by_month_2020",
+    "title": "Реализации по месяцам 2020",
+    "description": "Количество накладных и суммарный вес по месяцам 2020 года.",
+    "sql": "SELECT MONTH(invoice_date) AS month_num, COUNT(*) AS invoice_count, SUM(total_weight_kg) AS total_weight FROM invoice WHERE YEAR(invoice_date) = 2020 GROUP BY MONTH(invoice_date) ORDER BY MONTH(invoice_date);",
     "params": []
   },
   {
     "id": "client_activity",
     "title": "Активность клиента за период",
     "description": "Суммарный вес отгрузок по выбранному клиенту и году.",
-    "sql": "SELECT c.client_name, SUM(t.total_weight) AS total_weight FROM ttn t JOIN client c ON c.client_id = t.client_id WHERE YEAR(t.issue_date) = %(year)s AND c.client_name LIKE %(client)s GROUP BY c.client_name ORDER BY total_weight DESC;",
+    "sql": "SELECT c.full_name AS client_name, SUM(i.total_weight_kg) AS total_weight FROM invoice i JOIN client c ON c.id = i.client_id WHERE YEAR(i.invoice_date) = %(year)s AND c.full_name LIKE %(client)s GROUP BY c.full_name ORDER BY total_weight DESC;",
     "params": [
       {"name": "year", "label": "Год", "type": "number", "default": 2020, "required": true},
       {"name": "client", "label": "Имя клиента содержит", "type": "text", "placeholder": "ООО", "default": "%"}

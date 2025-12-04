@@ -107,8 +107,15 @@ def view_report(report_id: str):
         if not query:
             flash('Для отчета не задан SQL-запрос.', 'error')
             return redirect(url_for('reports.list_reports'))
-        with DBContextManager(current_app.config) as db:
-            rows = db.select(query, params_values if parameters else None)
+
+        try:
+            with DBContextManager(current_app.config) as db:
+                rows = db.select(query, params_values if parameters else None)
+        except Exception as exc:  # pragma: no cover - defensive path
+            current_app.logger.exception('Ошибка при выполнении отчета %s', report_id)
+            flash(f'Не удалось выполнить отчет: {exc}', 'error')
+            rows = None
+
 
     return render_template(
         'reports/view.html', report=report, params=parameters, values=params_values, rows=rows
