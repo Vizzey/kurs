@@ -1,7 +1,8 @@
-﻿import os
-from flask import Flask, render_template
+import os
+from flask import Flask, render_template, redirect, url_for, session
 from config_loader import load_config
 from blueprints.query import query_bp
+from blueprints.auth import auth_bp, login_required, permission_required, current_user
 
 
 def _run_startup_sql():
@@ -11,7 +12,7 @@ def _run_startup_sql():
     conf_path = os.path.join('config', 'app.conf')
     sql_path = os.path.join('initdb', 'newdb.sql')
     if not os.path.exists(sql_path):
-        return  
+        return
     kv = {}
     try:
         with open(conf_path, 'r', encoding='utf-8') as f:
@@ -62,20 +63,50 @@ def create_app():
 
     load_config(app, os.path.join('config', 'app.conf'))
 
+    app.register_blueprint(auth_bp)
     app.register_blueprint(query_bp)
 
+    MENU_ITEMS = [
+        {'title': 'Параметризованные запросы', 'endpoint': 'query.index', 'permission': 'queries'},
+        {'title': 'Отчёты', 'endpoint': 'reports', 'permission': 'reports'},
+        {'title': 'Администрирование', 'endpoint': 'admin', 'permission': 'admin'},
+        {'title': 'Выход', 'endpoint': 'auth.logout', 'permission': 'queries'},
+    ]
+
     @app.route('/')
+    @login_required
     def menu():
-        return render_template('menu.html')
+        user = current_user()
+        permissions = set(user.get('permissions', [])) if user else set()
+        items = [
+            {
+                'title': item['title'],
+                'url': url_for(item['endpoint'])
+            }
+            for item in MENU_ITEMS
+            if item['permission'] in permissions
+        ]
+        return render_template('menu.html', menu_items=items)
+
+    @app.route('/reports')
+    @permission_required('reports')
+    def reports():
+        return render_template('reports.html')
+
+    @app.route('/admin')
+    @permission_required('admin')
+    def admin():
+        return render_template('admin.html')
 
     @app.route('/exit')
     def exit_page():
-        return render_template('goodbye.html')
+        session.clear()
+        return redirect(url_for('auth.login'))
 
     return app
 
 
-#_run_startup_sql()
+# _run_startup_sql()
 
 app = create_app()
 wsgi_app = app.wsgi_app
