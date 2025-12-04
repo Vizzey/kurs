@@ -4,3 +4,5 @@ obj
 __pycache__/
 *.pyc
 !**/__init__.py
+.idea
+config/app.conf
