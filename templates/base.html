@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
@@ -12,7 +12,15 @@
         <h1>ИС «Супермаркет»</h1>
         <nav>
             <a href="{{ url_for('menu') }}">Главное меню</a>
-            <a href="{{ url_for('query.index') }}">Параметризованный запрос</a>
+            {% if 'queries' in session.get('user', {}).get('permissions', []) %}
+                <a href="{{ url_for('query.index') }}">Параметризованный запрос</a>
+            {% endif %}
+            {% if session.get('user') %}
+                <span class="user-info">{{ session['user']['login'] }} ({{ session['user']['role'] }})</span>
+                <a href="{{ url_for('auth.logout') }}">Выход</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Войти</a>
+            {% endif %}
         </nav>
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
