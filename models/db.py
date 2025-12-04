@@ -1,6 +1,7 @@
-﻿# models/db.py
+# models/db.py
 import pymysql
 from pymysql.cursors import DictCursor
+
 
 class DBContextManager:
     def __init__(self, config):
@@ -17,17 +18,23 @@ class DBContextManager:
             database=self.config['DB_NAME'],
             cursorclass=DictCursor,
             autocommit=True,
-            charset='utf8mb4',   
-            use_unicode=True,   
+            charset='utf8mb4',
+            use_unicode=True,
             init_command="SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
         )
         self.cursor = self.conn.cursor()
         return self
 
     def __exit__(self, et, ev, tb):
-        if self.cursor: self.cursor.close()
-        if self.conn: self.conn.close()
+        if self.cursor:
+            self.cursor.close()
+        if self.conn:
+            self.conn.close()
 
     def select(self, sql, params=None):
         self.cursor.execute(sql, params)
         return self.cursor.fetchall()
+
+    def execute(self, sql, params=None):
+        self.cursor.execute(sql, params)
+        return self.cursor.rowcount

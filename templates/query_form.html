@@ -1,19 +1,29 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-<h2>Параметризованный запрос: Найти товары</h2>
-<form action="{{ url_for('query.run_query') }}" method="post">
-    <label>
-        Название содержит:
-        <input type="text" name="name" placeholder="например, milk" />
-    </label>
-    <label>
-        Мин. цена:
-        <input type="number" step="0.01" name="min_price" />
-    </label>
-    <label>
-        Макс. цена:
-        <input type="number" step="0.01" name="max_price" />
-    </label>
-    <button type="submit">Искать</button>
-</form>
+<section class="hero">
+    <div>
+        <p class="eyebrow">Параметризованный запрос</p>
+        <h2>Найти товары</h2>
+        <p class="subtitle">Уточните критерии поиска, чтобы получить нужные позиции.</p>
+    </div>
+</section>
+<div class="glass-card">
+    <form action="{{ url_for('query.run_query') }}" method="post" class="stack-form">
+        <label>
+            Название содержит
+            <input type="text" name="name" placeholder="например, молоко" />
+        </label>
+        <div class="grid two-cols">
+            <label>
+                Мин. цена
+                <input type="number" step="0.01" name="min_price" />
+            </label>
+            <label>
+                Макс. цена
+                <input type="number" step="0.01" name="max_price" />
+            </label>
+        </div>
+        <button type="submit" class="primary-button">Искать</button>
+    </form>
+</div>
 {% endblock %}
