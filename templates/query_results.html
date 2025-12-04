@@ -1,0 +1,45 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<h2>Результаты</h2>
+
+{# аккуратно выводим описание критериев, если есть #}
+{% if criteria %}
+<p>
+    {% if criteria.name is defined %}
+    Критерии: «{{ criteria.name or '—' }}», цена {{ criteria.min }}–{{ criteria.max }}
+    {% elif criteria.q is defined %}
+    {{ criteria.q }}
+    {% elif criteria.contract is defined %}
+    Договор: {{ criteria.contract }}
+    {% elif criteria.series is defined %}
+    Серия: {{ criteria.series }}
+    {% else %}
+    {{ criteria }}
+    {% endif %}
+</p>
+{% endif %}
+
+{% if items and items|length > 0 %}
+    {% set cols = items[0].keys() %}
+<table>
+    <thead>
+        <tr>
+            {% for c in cols %}
+            <th>{{ c }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in items %}
+        <tr>
+            {% for c in cols %}
+            <td>{{ row[c] }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Ничего не найдено.</p>
+{% endif %}
+{% endblock %}
