@@ -7,21 +7,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
     <meta charset="utf-8" />
 </head>
-<body>
-    <header>
-        <h1>ИС «Супермаркет»</h1>
-        <nav>
-            <a href="{{ url_for('menu') }}">Главное меню</a>
-            {% if 'queries' in session.get('user', {}).get('permissions', []) %}
-                <a href="{{ url_for('query.index') }}">Параметризованный запрос</a>
-            {% endif %}
-            {% if session.get('user') %}
-                <span class="user-info">{{ session['user']['login'] }} ({{ session['user']['role'] }})</span>
-                <a href="{{ url_for('auth.logout') }}">Выход</a>
-            {% else %}
-                <a href="{{ url_for('auth.login') }}">Войти</a>
-            {% endif %}
-        </nav>
+<body class="app-body">
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-icon" aria-hidden="true">🛒</div>
+                <div>
+                    <p class="eyebrow">ИС «Супермаркет»</p>
+                    <h1>Рабочая панель</h1>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('menu') }}">Главное меню</a>
+                {% if 'queries' in session.get('user', {}).get('permissions', []) %}
+                    <a href="{{ url_for('query.index') }}">Параметризованный запрос</a>
+                {% endif %}
+                {% if session.get('user') %}
+                    <span class="user-info">{{ session['user']['login'] }} ({{ session['user']['role'] }})</span>
+                    <a class="ghost" href="{{ url_for('auth.logout') }}">Выход</a>
+                {% else %}
+                    <a class="primary" href="{{ url_for('auth.login') }}">Войти</a>
+                {% endif %}
+            </nav>
+        </header>
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <ul class="flash">
@@ -31,12 +39,12 @@
         </ul>
         {% endif %}
         {% endwith %}
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    <footer>
-        <small>Китляров</small>
-    </footer>
+        <main class="page-content">
+            {% block content %}{% endblock %}
+        </main>
+        <footer class="footer">
+            <small>Китляров</small>
+        </footer>
+    </div>
 </body>
 </html>
