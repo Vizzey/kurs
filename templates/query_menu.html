@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="panel">
+    <h2>Параметризованные запросы</h2>
+    <p class="muted">Выполните готовые выборки или уточните параметры, чтобы получить свежие данные.</p>
+
+    <div class="menu-grid">
+        {% for card in query_cards %}
+        <div class="menu-card">
+            <div class="menu-card__icon" aria-hidden="true">{{ card.icon }}</div>
+            <div class="menu-card__body">
+                <h3>{{ card.title }}</h3>
+                <p class="muted">{{ card.description }}</p>
+                {% if card.mode == 'link' %}
+                    <div class="actions" style="margin-top: 10px;">
+                        <a class="primary" href="{{ card.url }}">Запустить</a>
+                    </div>
+                {% elif card.mode == 'form' %}
+                    <form action="{{ card.form.action }}" method="{{ card.form.method }}" class="mini-form">
+                        {% for field in card.form.fields %}
+                            <label>
+                                {{ field.label }}
+                                <input
+                                    type="{{ field.type }}"
+                                    name="{{ field.name }}"
+                                    value="{{ field.value }}"
+                                    placeholder="{{ field.placeholder }}"
+                                    {% if field.step %}step="{{ field.step }}"{% endif %}
+                                />
+                            </label>
+                        {% endfor %}
+                        <div class="actions">
+                            <button type="submit" class="primary">Выполнить</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

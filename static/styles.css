@@ -3,8 +3,8 @@
     --surface: #ffffff;
     --border: #e5e7eb;
     --muted: #6b7280;
-    --primary: #2563eb;
-    --primary-100: #dbeafe;
+    --primary: #0ea5e9;
+    --primary-100: #e0f2fe;
     --shadow: 0 20px 45px rgba(31, 41, 55, 0.08);
     --radius: 16px;
 }
@@ -17,8 +17,8 @@ body {
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     margin: 0;
     padding: 32px 16px 48px;
-    background: radial-gradient(circle at 10% 20%, #e0e7ff 0, rgba(224, 231, 255, 0) 30%),
-        radial-gradient(circle at 90% 10%, #d1fae5 0, rgba(209, 250, 229, 0) 28%),
+    background: radial-gradient(circle at 12% 18%, #e0f2fe 0, rgba(224, 242, 254, 0) 30%),
+        radial-gradient(circle at 86% 12%, #cffafe 0, rgba(207, 250, 254, 0) 28%),
         var(--bg);
     color: #0f172a;
     min-height: 100vh;
@@ -44,7 +44,7 @@ body {
     gap: 16px;
     padding: 20px 28px;
     border-bottom: 1px solid var(--border);
-    background: linear-gradient(120deg, rgba(37, 99, 235, 0.08), rgba(16, 185, 129, 0.06));
+    background: linear-gradient(120deg, rgba(14, 165, 233, 0.12), rgba(14, 165, 233, 0.04));
 }
 
 .brand {
@@ -62,7 +62,7 @@ body {
     display: grid;
     place-items: center;
     font-size: 20px;
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15);
+    box-shadow: 0 10px 20px rgba(14, 165, 233, 0.18);
 }
 
 h1 {
@@ -162,6 +162,72 @@ ul li + li {
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
 
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.menu-card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 12px 25px rgba(15, 23, 42, 0.04);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+}
+
+.menu-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    background: #e0f2fe;
+    color: #0f172a;
+    border: 1px solid #bae6fd;
+    box-shadow: 0 8px 18px rgba(14, 165, 233, 0.15);
+}
+
+.menu-card__body h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+}
+
+.menu-card__body p {
+    margin: 0;
+}
+
+.menu-card form {
+    width: 100%;
+}
+
+.mini-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.mini-form .actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .auth-card {
     max-width: 480px;
     margin: 24px auto;
@@ -230,7 +296,7 @@ button.primary, .primary {
 }
 
 button.primary:hover, .primary:hover {
-    background: #1d4ed8;
+    background: #0284c7;
     transform: translateY(-1px);
 }
 
